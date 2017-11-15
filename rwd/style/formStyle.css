@@ -1,0 +1,165 @@
+.container {
+    width: auto;
+    margin: auto;
+    padding: 30px 30px 20px;
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.heading h1 {
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.heading h2 {
+    font-weight: 400;
+}
+
+.heading p {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+label.form-label {
+    display: inline-block;
+    width: 30%;
+    font-weight: 400;
+    letter-spacing: 1px;
+    vertical-align: top;
+}
+
+.form-input {
+    display: inline-block;
+    width: 69%;
+}
+
+ul.field-list li {
+    margin: 15px 0px;
+}
+
+select {
+    width: 99%;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.63);
+}
+
+.dob select {
+    width: 33%;
+}
+
+input[type="text"] {
+    /*   margin: 15px 0px; */
+    padding: 7px 10px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.63);
+    border: none;
+    width: 99%;
+    color: #0f0e10;
+}
+
+span.form-sub-label input[type="text"] {
+    margin: 10px 0px 20px;
+    width: 49%;
+}
+
+span.form-required {
+    color: red;
+}
+
+label.form-label1 {
+    display: inline-block;
+    margin: 15px 0px;
+    letter-spacing: 1px;
+}
+
+label.type-of-test {
+    display: inline-block;
+    width: 100px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+textarea {
+    width: 98%;
+    background-color: rgba(255, 255, 255, 0.63);
+}
+
+input[type="submit"], input[type="reset"] {
+    display: inline-block;
+    margin: auto;
+    padding: 10px 25px;
+    margin-top: 25px;
+    background-color: #009688;
+    border: 1px solid #00BCD4;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    outline: 0;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #E91E63;
+    border: 1px solid red;
+    color: white;
+}
+
+input.year {
+    width: 31% !important;
+    padding: 6px;
+}
+
+input[type="email"] {
+    padding: 7px;
+    background-color: rgba(255, 255, 255, 0.63);
+    border: 0;
+    width: 95%;
+    color: #0f0e10;
+}
+
+span.form-sub-label {
+    position: relative;
+}
+
+label.form-sub-label1 {
+    position: absolute;
+    bottom: -30px;
+    left: 15px;
+    min-height: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #d3d3d3;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #d3d3d3;
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #d3d3d3;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: #d3d3d3;
+}

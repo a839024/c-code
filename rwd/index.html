@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>ATOP</title>
+    <link rel="shortcut icon" href="img/atop_logo.jpg">
+    <!-- stylesheets -->
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="style/navigation.css">
+    <link rel="stylesheet" type="text/css" href="style/responsive.css">
+    <!-- google fonts  -->
+    <link rel="stylesheet" href="./style/css.css">
+    <!-- ajax  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- local function  -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "100%";
+            document.getElementById("main").style.width = "0%";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0%";
+            document.getElementById("main").style.width = "100%";
+        }
+
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+        }
+
+        function changeTab(obj){
+            const target = obj.getAttribute("data-page");
+            document.getElementById("frame").src = target;
+            document.getElementById("mySidenav").style.width = "0%";
+            document.getElementById("main").style.width = "100%";
+        }
+
+        window.addEventListener("resize", function(event) {
+            const obj = document.getElementById("frame");
+            resizeIframe(obj);
+        });
+    </script>
+</head>
+
+<body>
+
+    <span class="hamburger" onclick="openNav()">&#9776;</span>
+
+    <div class="clearfix">
+        <div id="mySidenav" class="sidenav">
+            <img id="atopLogo" src="img/logo.jpg">
+            <div id="closebtn" onclick="closeNav()">&times;</div>
+            <div data-page="overview.html" onclick="changeTab(this);">Overview</div>
+            <div data-page="wizrd">Wizard</div>
+            <div data-page="setting_sample.html" onclick="changeTab(this);">Basic</div>
+            <div data-page="advance">Advance</div>
+        </div>
+        <div id="main" class="main">
+            <div id="status">
+                <span id="versionInfo">Product Name: SE59XX</span>
+                <br>
+                <span id="versionInfo">Mode: XXXXX</span>
+                <br>
+                <span id="versionInfo">Firmware Version: 1.2.34</span>
+            </div>
+
+            <div>
+                <iframe id="frame" src="overview.html" onload="resizeIframe(this);" scrolling="no"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
