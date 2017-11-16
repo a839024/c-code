@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/table.css">
+    <!-- Font Style CSS -->
+    <link rel="stylesheet" href="css/poppins-font.css">
+    <!-- jQuery CDN -->
+    <script src="script/ajax-jquery.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.userList').on('click', function() {
+                var target = $(this).attr('data-target');
+                $('.userList').toggleClass('active', false);
+                $('.table-wrapper').toggleClass("noShow", true);
+                $(this).toggleClass('active');
+                $(target).toggleClass('noShow');
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="userList active" role="presentation" data-target="#network"><a href="#">Network</a></li>
+            <li class="userList" role="presentation" data-target="#lan"><a href="#">Lan</a></li>
+            <li class="userList" role="presentation" data-target="#status"><a href="#">Status</a></li>
+        </ul>
+        <div id="network" class="table-wrapper">
+            <div class="panel panel-default">
+                <div class="panel-heading">Network Info</div>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>MODEL NAME</td>
+                            <td>SE5916</td>
+                        </tr>
+                        <tr>
+                            <td>DEVICE NAME</td>
+                            <td>0060E9-1C941A</td>
+                        </tr>
+                        <tr>
+                            <td>KERNEL VERSION</td>
+                            <td>1.31</td>
+                        </tr>
+                        <tr>
+                            <td>AP VERISON</td>
+                            <td>1.07</td>
+                        </tr>
+                        <tr>
+                            <td>BOOTLOADER VERSION</td>
+                            <td>1.03</td>
+                        </tr>
+                        <tr>
+                            <td>CPLD VERSION</td>
+                            <td>2.11</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="lan" class="table-wrapper noShow">
+            <div class="panel panel-default">
+                <div class="panel-heading">Lan</div>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td rowspan="2">Lan 1</td>
+                            <td>MAC Address</td>
+                            <td>00:11:e9:5c:94:1d</td>
+                        </tr>
+                        <tr>
+                            <td>IP Address</td>
+                            <td>10.0.178.203</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Lan 2</td>
+                            <td>MAC Address</td>
+                            <td>00:5a:ed:24:51:83</td>
+                        </tr>
+                        <tr>
+                            <td>IP Address</td>
+                            <td>10.20.53.254</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Lan 3</td>
+                            <td>MAC Address</td>
+                            <td>05:10:2a:59:9f:ff</td>
+                        </tr>
+                        <tr>
+                            <td>IP Address</td>
+                            <td>192.168.101.244</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="status" class="table-wrapper noShow">
+            <div class="panel panel-default">
+                <div class="panel-heading">Status</div>
+                <div class="panel-body">
+                    <p>Table detail infomation here</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <ul class="pagination justify-content-center">
+                    <li id="prev" class="page-item disabled"><a href="#"><i class="fa fa-long-arrow-left"></i> Previous</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li id="next" class="page-item"><a href="#" class="page-link">Next <i class="fa fa-long-arrow-right"></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/table.css">
+    <!-- Font Style CSS -->
+    <link rel="stylesheet" href="css/poppins-font.css">
+    <!-- jQuery CDN -->
+    <script src="script/ajax-jquery.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.dropdown').on('click', function() {
+                $('.dropdown-toggle').dropdown();
+            });
+
+            $('.lanSetting').on('click', function() {
+                var span = $('.caret');
+                var text = $(this).text();
+                $('.dropdown-toggle').html(text)
+                    .append(span);
+            });
+
+            $('.switch-container').on('click', function() {
+                $(this).toggleClass('switch-enable');
+                var input = $(this).children('input');
+                input.attr('value') == 'yes' ? input.val('yes') : input.val('no');
+                console.log($('form').serialize());
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="dropdown active userList">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Lan Setting<span class="caret"></span>
+    </a>
+                <ul class="dropdown-menu">
+                    <li><a class="lanSetting" href="#">Lan 1</a></li>
+                    <li><a class="lanSetting" href="#">Lan 2</a></li>
+                    <li><a class="lanSetting" href="#">Lan 3</a></li>
+                </ul>
+            </li>
+            <li class="userList" role="presentation" data-target="#network"><a href="#">Network Settings</a></li>
+        </ul>
+        <form>
+        <div id="network" class="table-wrapper">
+            <div class="panel panel-default">
+                <div class="panel-heading">Lan 1</div>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>DHCP</td>
+                            <td>
+                                <div class='switch-wrapper'>
+                                    <div class="switch-container">
+                                        <span class="switch-label switch-on">Yes</span>
+                                        <span class="switch-label"></span>
+                                        <span class="switch-label switch-off">no</span>
+                                        <input id="dhcp1" type="hidden" name="dhcp1" value="no">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IP Address</td>
+                            <td><input type="text" name='lan1' value='10.0.50.100'></td>
+                        </tr>
+                        <tr>
+                            <td>Subnet Mask</td>
+                            <td><input type="text" name='lan1' value='255.255.255.0'></td>
+                        </tr>
+                        <tr>
+                            <td>Gateway</td>
+                            <td><input type="text" name='lan1' value='10.0.50.254'></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</body>
+
+</html>

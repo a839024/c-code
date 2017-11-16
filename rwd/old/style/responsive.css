@@ -50,6 +50,10 @@
         margin: auto;
         padding: 30px 15px 20px;
     }
+
+    td {
+        text-align: right;
+    }
 }
 
 @media screen and (max-width: 600px) {
