@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/table.css">
+  <!-- Font Style CSS -->
+  <link rel="stylesheet" href="css/poppins-font.css">
+  <!-- jQuery CDN -->
+  <script src="js/ajax-jquery.min.js"></script>
+  <!-- Bootstrap Js CDN -->
+  <script src="js/bootstrap.min.js" defer></script>
+
+  <script src="js/utils.js"></script>
+  <script type="text/javascript" defer>
+    var submit = false;
+
+    var modeIntro = [
+      'Introduction For Primary AP mode...',
+      'Introduction For AP mode...',
+      'Introduction For Mesh only mode...',
+      'Introduction For STA mode...',
+    ];
+
+    var pageIntro = [
+      modeIntro,
+      'Introduction For Mesh Setting...',
+      'Introduction For Ap Setting...',
+      'Setting Your Network Configure',
+    ];
+
+    $(window).ready(function() {
+      parent.$('#main-section').height($('body').height());
+      paginationGenerator(1);
+      dhcpControl();
+      $('.panel-body').text(pageIntro[0][0]);
+      $('.stepContent').hide();
+      $('.stepContent').first().show();
+      $('#liSubmit').hide();
+    });
+
+    function settingGenerator() {
+      var $div = $('<div>', {
+        class: 'stepContent'
+      });
+      var $table = $('<table>', {
+        class: 'table table-striped'
+      });
+      var $tbody = $('<tbody>');
+      var $tr = $('<tr>');
+      $('<tr>').append('<td>', {
+        text: 'Mode'
+      }).append($('<td>').append(''))
+    }
+
+    function paginationGenerator(mode) {
+      switch (mode) {
+        case '2':
+          $('#divMode').toggleClass('stepContent', true);
+          $('#divMesh').toggleClass('stepContent', true);
+          $('#divAp').toggleClass('stepContent', true);
+          $('#divIp').toggleClass('stepContent', false);
+          break;
+        case '3':
+          $('#divMode').toggleClass('stepContent', true);
+          $('#divMesh').toggleClass('stepContent', true);
+          $('#divAp').toggleClass('stepContent', false);
+          $('#divIp').toggleClass('stepContent', false);
+          break;
+        default:
+          $('#divMode').toggleClass('stepContent', true);
+          $('#divMesh').toggleClass('stepContent', true);
+          $('#divAp').toggleClass('stepContent', true);
+          $('#divIp').toggleClass('stepContent', true);
+      }
+
+      $('.page-item').remove();
+      for (var i = 0; i < $('.stepContent').length; i++) {
+        var pageSign = $('<li>', {
+          class: "page-item"
+        }).append($('<a>', {
+          text: i
+        }));
+        if (!i)
+          pageSign.addClass("active");
+        $('#liNext').before(pageSign);
+      }
+    }
+
+    function dhcpControl() {
+      if (parseInt($('#dhcp').val())) {
+        $('#dhcpEnable').toggleClass('switch-enable', true);
+        $('#trIP').show();
+        $('#trMask').show();
+        $('#trDhcpStart').show();
+        $('#trDhcpEnd').show();
+      } else {
+        $('#dhcpEnable').toggleClass('switch-enable', false);
+        $('#trIP').hide();
+        $('#trMask').hide();
+        $('#trDhcpStart').hide();
+        $('#trDhcpEnd').hide();
+      }
+    }
+
+    $(document).ready(function() {
+      $('#wizardForm').on('submit', function(e) {
+        if (submit) {
+          ShowToast('submit');
+          $.ajax({
+            url: '/form/MeshSettingCgi',
+            method: 'post',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(resp) {
+              console.log(resp);
+              if (resp.status == 'ok') {
+                ShowToast('Update Success');
+              } else {
+                ShowToast('Update Failed');
+              }
+            },
+            beforeSend: function() {
+              parent.$('#waitDialog').modal('show');
+            },
+            complete: function() {
+              parent.$('#waitDialog').modal('hide');
+            }
+          });
+          submit = false;
+        }
+        e.preventDefault();
+      });
+
+      $('#dhcpEnable').on('click', function() {
+        parseInt($('#dhcp').val()) ? $('#dhcp').val('0') : $('#dhcp').val('1');
+        dhcpControl();
+      });
+
+      $('#selMode').on('change', function() {
+        paginationGenerator($(this).val());
+        $(".panel-body").hide('1000', function() {
+          $('.panel-body').text(pageIntro[0][parseInt($(this).val() - 1)]);
+        });
+        $(".panel-body").show('1000');
+      });
+
+      $('#prev').on('click', function() {
+        if ($('#wizardForm')[0].checkValidity()) {
+          var first = $('.page-item').index($('.page-item').first());
+          var last = $('.page-item').index($('.page-item').last());
+          var indexOfActive = $('.page-item').index($('.page-item.active'));
+          if (indexOfActive != first) {
+            $('.page-item').eq(indexOfActive).prev().addClass('active');
+            $('.page-item').eq(indexOfActive).removeClass('active');
+            $('.stepContent').hide();
+            $('.stepContent').eq(indexOfActive).prev().show();
+          }
+          if (indexOfActive == last) {
+            $('#liNext').show();
+            $('#liSubmit').hide();
+          }
+
+          if ((indexOfActive - 1) == first) {
+            $('#prev').addClass('disabled');
+            $(".panel-body").hide('1000', function() {
+              $('.panel-body').text(pageIntro[0][parseInt($('#selMode').val() - 1)]);
+            });
+            $(".panel-body").show('1000');
+            return;
+          }
+
+          $(".panel-body").hide('1000', function() {
+            $('.panel-body').text(pageIntro[indexOfActive - 1]);
+          });
+          $(".panel-body").show('1000');
+        }
+      });
+
+      $('#next').on('click', function() {
+        if ($('#wizardForm')[0].checkValidity()) {
+          var first = $('.page-item').index($('.page-item').first());
+          var last = $('.page-item').index($('.page-item').last());
+          var indexOfActive = $('.page-item').index($('.page-item.active'));
+          if (indexOfActive != last) {
+            $('.page-item').eq(indexOfActive).next().addClass('active');
+            $('.page-item').eq(indexOfActive).removeClass('active');
+            $('.stepContent').hide();
+            $('.stepContent').eq(indexOfActive).next().show();
+          }
+          if (indexOfActive == first)
+            $('#prev').removeClass('disabled');
+
+          if ((indexOfActive + 1) == last) {
+            $('#liNext').hide();
+            $('#liSubmit').show();
+          }
+
+          $(".panel-body").hide('1000', function() {
+            $('.panel-body').text(pageIntro[indexOfActive + 1]);
+          });
+          $(".panel-body").show('1000');
+        }
+      });
+
+      $('#submit').on('click', function() {
+        if ($('#wizardForm')[0].checkValidity()) {
+          submit = true;
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <form action="" id="wizardForm">
+      <div class="table-wrapper">
+        <div class="panel panel-default">
+          <div class="panel-heading">Wireless Wizard</div>
+          <div class="panel-body"></div>
+          <div id="divMode">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>Mode</td>
+                  <td>
+                    <select id="selMode" name="selMode">
+                                            <option value="1" selected="">Primary AP Mode</option>
+                                            <option value="2">AP Mode</option>
+                                            <option value="3">Mesh Only Mode</option>
+                                            <option value="4">STA Mode</option>
+                                        </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Channel</td>
+                  <td>
+                    <select id="selChannel" name="selChannel">
+                                            <option value="1" selected="">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="divMesh">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>Mesh SSID</td>
+                  <td>
+                    <input id="txtMeshSSID" type="text" name="txtMeshSSID" value="meshssid" required>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mesh Password</td>
+                  <td>
+                    <input id="txtMeshPSK" type="text" name="txtMeshPSK" value="password">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="divAp">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>AP SSID</td>
+                  <td>
+                    <input id="txtApSSID" type="text" name="txtApSSID" value="ATOP_TC_L_22F_5G" required>
+                  </td>
+                </tr>
+                <tr>
+                  <td>AP Password</td>
+                  <td>
+                    <input id="txtApPSK" type="text" name="txtApPSK" value="0423582056">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="divIp">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>DHCP Server</td>
+                  <td>
+                    <div class="switch-wrapper">
+                      <div id="dhcpEnable" class="switch-container">
+                        <span class="switch-label switch-on">Yes</span>
+                        <span class="switch-label"></span>
+                        <span class="switch-label switch-off">no</span>
+                        <input id="dhcp" type="hidden" name="dhcp" value="0">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr id="trIP">
+                  <td>IP Address</td>
+                  <td><input id="txtIP" type="text" name="txtIP" value="10.0.50.100" required></td>
+                </tr>
+                <tr id="trMask">
+                  <td>Subnet Mask</td>
+                  <td><input id="txtMask" type="text" name="txtMask" value="255.255.255.0" required></td>
+                </tr>
+                <tr id="trDhcpStart">
+                  <td>DHCP Start</td>
+                  <td><input id="txtDhcpStart" type="number" name="txtDhcpStart" value="10" required></td>
+                </tr>
+                <tr id="trDhcpEnd">
+                  <td>DHCP End</td>
+                  <td><input id="txtDhcpEnd" type="number" name="txtDhcpEnd" value="20" required></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <ul class="pagination justify-content-center">
+            <li id="liPrev">
+              <a href="javascript: void(0);">
+                                <button id="prev" type="submit" class="btn btn-default disabled">
+                                    <span class="glyphicon glyphicon-menu-left"></span>
+                                    <span class="rwdText">Previous</span>
+                                </button>
+                            </a>
+            </li>
+            <li id="liNext">
+              <a href="javascript: void(0);">
+                                <button id="next" type="submit" class="btn btn-default">
+                                    <span class="rwdText">Next</span>
+                                    <span class="glyphicon glyphicon-menu-right"></span>
+                                </button>
+                            </a>
+            </li>
+            <li id="liSubmit">
+              <a href="javascript: void(0);">
+                                <button id="submit" type="submit" class="btn btn-default">
+                                    <span class="rwdText">Submit</span>
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
